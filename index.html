@@ -1,45 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact form using Bootstrap 3.3.4</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-</head>
-<body style="background-color: #7e7e7e">
-<div class="row">
-<div class="col-sm-6 col-sm-offset-3">
-    <div class="well" style="margin-top: 10%;">
-    <h3>Send me a message</h3>
-    <form role="form" id="contactForm" data-toggle="validator" class="shake">
-        <div class="row">
-            <div class="form-group col-sm-6">
-                <label for="name" class="h4">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter name" required data-error="NEW ERROR MESSAGE">
-                <div class="help-block with-errors"></div>
-            </div>
-            <div class="form-group col-sm-6">
-                <label for="email" class="h4">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="message" class="h4 ">Message</label>
-            <textarea id="message" class="form-control" rows="5" placeholder="Enter your message" required></textarea>
-            <div class="help-block with-errors"></div>
-        </div>
-        <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
-        <div id="msgSubmit" class="h3 text-center hidden"></div>
-        <div class="clearfix"></div>
-    </form>
-    </div>
-</div>
-</div>
-</body>
-<script  type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="js/validator.min.js"></script>
-<script type="text/javascript" src="js/form-scripts.js"></script>
-</html>
+<form id="my-form" action="https://formspree.io/f/xwkarzdk" method="POST">
+    <label>Email:</label>
+    <input type="email" name="email" />
+    <label>Message:</label>
+    <input type="text" name="message" />
+    <button id="my-form-button">Submit</button>
+    <p id="my-form-status"></p>
+</form>
+
+<!-- Place this script at the end of the body tag -->
+
+<script>
+    var form = document.getElementById("my-form");
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        var status = document.getElementById("my-form-status");
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            status.innerHTML = "Thanks for your submission!";
+            form.reset()
+        }).catch(error => {
+            status.innerHTML = "Oops! There was a problem submitting your form"
+        });
+    }
+    form.addEventListener("submit", handleSubmit)
+</script>
